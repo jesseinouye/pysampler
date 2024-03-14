@@ -439,7 +439,7 @@ class ModFrame(Tk.Frame):
         self.lowpass_check.grid(column=1, row=2, sticky='w', padx=(0, 10))
 
         self.lowpass_scale_var = Tk.IntVar()
-        self.lowpass_scale = ttk.Scale(self.audio_ctrl_frame, from_=10, to=7999, length=250, orient='horizontal', command=self.update_lowpass_freq)
+        self.lowpass_scale = ttk.Scale(self.audio_ctrl_frame, from_=50, to=7850, length=250, orient='horizontal', command=self.update_lowpass_freq)
         self.lowpass_scale.set(1000)
         self.lowpass_scale.grid(column=2, row=2, sticky='w')
 
@@ -456,7 +456,7 @@ class ModFrame(Tk.Frame):
         self.highpass_check.grid(column=1, row=3, sticky='w', padx=(0, 10))
 
         self.highpass_scale_var = Tk.IntVar()
-        self.highpass_scale = ttk.Scale(self.audio_ctrl_frame, from_=10, to=7999, length=250, orient='horizontal', command=self.update_highpass_freq)
+        self.highpass_scale = ttk.Scale(self.audio_ctrl_frame, from_=50, to=7850, length=250, orient='horizontal', command=self.update_highpass_freq)
         self.highpass_scale.set(1000)
         self.highpass_scale.grid(column=2, row=3, sticky='w')
 
@@ -474,7 +474,7 @@ class ModFrame(Tk.Frame):
         self.bandpass_check.grid(column=1, row=4, sticky='w', padx=(0, 10))
 
         self.bandpass_low_scale_var = Tk.IntVar()
-        self.bandpass_low_scale = ttk.Scale(self.audio_ctrl_frame, from_=20, to=7999, length=250, orient='horizontal', command=self.update_bandpass_low_freq)
+        self.bandpass_low_scale = ttk.Scale(self.audio_ctrl_frame, from_=50, to=7850, length=250, orient='horizontal', command=self.update_bandpass_low_freq)
         self.bandpass_low_scale.set(500)
         self.bandpass_low_scale.grid(column=2, row=4, sticky='w')
 
@@ -483,7 +483,7 @@ class ModFrame(Tk.Frame):
         self.bandpass_low_num.grid(column=3, row=4, sticky='w')
 
         self.bandpass_high_scale_var = Tk.IntVar()
-        self.bandpass_high_scale = ttk.Scale(self.audio_ctrl_frame, from_=20, to=7999, length=250, orient='horizontal', command=self.update_bandpass_high_freq)
+        self.bandpass_high_scale = ttk.Scale(self.audio_ctrl_frame, from_=50, to=7850, length=250, orient='horizontal', command=self.update_bandpass_high_freq)
         self.bandpass_high_scale.set(1500)
         self.bandpass_high_scale.grid(column=2, row=5, sticky='w')
 
@@ -501,7 +501,7 @@ class ModFrame(Tk.Frame):
         self.am_check.grid(column=1, row=6, sticky='w', padx=(0, 10))
 
         self.am_scale_var = Tk.IntVar()
-        self.am_scale = ttk.Scale(self.audio_ctrl_frame, from_=-300, to=7000, length=250, orient='horizontal', command=self.update_am_freq)
+        self.am_scale = ttk.Scale(self.audio_ctrl_frame, from_=-300, to=7850, length=250, orient='horizontal', command=self.update_am_freq)
         self.am_scale.set(0)
         self.am_scale.grid(column=2, row=6, sticky='w')
 
@@ -734,6 +734,8 @@ class AudioBackEnd(threading.Thread):
         while True:
             if self.shutdown_event.is_set():
                 print("Shutting down audio thread")
+                self.stream.stop_stream()
+                self.stream.close()
                 break
 
             self.check_queue()
